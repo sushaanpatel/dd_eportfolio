@@ -4,6 +4,13 @@ import 'package:dd_eportfolio/models/model.dart';
 import 'package:dd_eportfolio/models/player.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+List<List<Color>> scolors = const [
+  [Color(0xffffe600), Color(0xffff7c22)],
+  [Color(0xff46a900), Color(0xff307500)],
+  [Color(0xffffd700), Color(0xffcdad00)],
+  [Color(0xff619edc), Color(0xff2c78c4)],
+];
+
 class CulturePage extends StatelessWidget {
   final int id;
   CulturePage({required this.id});
@@ -13,7 +20,7 @@ class CulturePage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           shadowColor: Colors.transparent,
-          iconTheme: const IconThemeData(color: Color(0xffff8b3c), size: 50),
+          iconTheme: IconThemeData(color: scolors[id][1], size: 50),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           title: Text(
             r.name,
@@ -24,6 +31,14 @@ class CulturePage extends StatelessWidget {
             ),
           ),
         ),
+        // bottomNavigationBar: SongWidget(
+        //     name: 'Dark Side of the Moon',
+        //     image:
+        //         'https://i1.sndcdn.com/artworks-hRsOQyJbIXRo2c9R-V3JH1Q-t500x500.jpg',
+        //     url:
+        //         'https://drive.google.com/uc?export=mp3&id=1dPyyf-mRoeMYMoafKLuXZo0b91dKvgd_',
+        //     description: 'hhjhsdjfsjjsfdhjhjhdfhdjffdhjhjhjfdffjhjh',
+        //     bar: true),
         body: SafeArea(
             child: SingleChildScrollView(
           child: Column(
@@ -35,10 +50,12 @@ class CulturePage extends StatelessWidget {
                   )),
               const SizedBox(height: 20),
               ...r.songs.map((e) => SongWidget(
+                    id: id,
                     name: e.title,
                     image: e.image,
                     description: e.description,
                     url: e.url,
+                    bar: false,
                   )),
             ],
           ),
@@ -81,18 +98,36 @@ class InfoWidget extends StatelessWidget {
 }
 
 class SongWidget extends StatelessWidget {
+  final int id;
   final String name;
   final String image;
   final String description;
   final String url;
-  SongWidget({
-    required this.name,
-    required this.image,
-    required this.description,
-    required this.url,
-  });
+  final bool bar;
+  SongWidget(
+      {required this.id,
+      required this.name,
+      required this.image,
+      required this.description,
+      required this.url,
+      required this.bar});
   @override
   Widget build(BuildContext context) {
+    double wheight;
+    double iheight;
+    double fsize;
+    double isize;
+    if (bar) {
+      wheight = 0.08;
+      iheight = 0.12;
+      fsize = 16;
+      isize = 25;
+    } else {
+      wheight = 0.1;
+      iheight = 0.18;
+      fsize = 20;
+      isize = 35;
+    }
     return BottomModalWidget(
         name: name,
         image: image,
@@ -101,14 +136,11 @@ class SongWidget extends StatelessWidget {
         child: Padding(
             padding: const EdgeInsets.all(10),
             child: Container(
-                height: MediaQuery.of(context).size.height * 0.12,
-                decoration: const BoxDecoration(
+                height: MediaQuery.of(context).size.height * wheight,
+                decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(8)),
-                    gradient:
-                        LinearGradient(begin: Alignment.bottomRight, colors: [
-                      Color(0xffffe600),
-                      Color(0xffff7c22),
-                    ])),
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomRight, colors: scolors[id])),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -119,13 +151,14 @@ class SongWidget extends StatelessWidget {
                               child: FadeInImage.assetNetwork(
                                 placeholder: 'assets/icons/placeholder.gif',
                                 image: image,
-                                width: MediaQuery.of(context).size.width * 0.18,
+                                width:
+                                    MediaQuery.of(context).size.width * iheight,
                               ))),
                       Text(name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: GoogleFonts.poppins(
-                              fontSize: 20,
+                              fontSize: fsize,
                               fontWeight: FontWeight.w500,
                               color: Colors.white)),
                       Padding(
@@ -142,7 +175,7 @@ class SongWidget extends StatelessWidget {
                                 splashRadius: 4.0,
                                 splashColor: Colors.white,
                                 icon: const Icon(Icons.play_arrow),
-                                iconSize: 35,
+                                iconSize: isize,
                                 color: Colors.white,
                               )))
                     ]))));

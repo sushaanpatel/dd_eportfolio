@@ -28,8 +28,8 @@ class HomePage extends StatelessWidget {
               centerTitle: true,
               shadowColor: Colors.transparent,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              systemOverlayStyle: const SystemUiOverlayStyle(
-                  statusBarColor: Colors.transparent),
+              // systemOverlayStyle:
+              //     const SystemUiOverlayStyle(statusBarColor: Colors.grey),
             ),
             body: HomeWidget()));
   }
@@ -39,21 +39,12 @@ class HomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.max,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            HomeCard("Hinduism", "assets/icons/hinduism.jpg", 0),
-            HomeCard("Islam", "assets/icons/islam.jpg", 1),
-          ],
-        ),
-        Row(
-          children: [
-            HomeCard("Judaism", "assets/icons/judaism.jpg", 3),
-            HomeCard("Christianity", "assets/icons/christianity.jpg", 2)
-          ],
-        )
+        HomeCard("Hinduism", "assets/icons/hinduism.jpg", 0),
+        HomeCard("Islam", "assets/icons/islam.png", 1),
+        HomeCard("Judaism", "assets/icons/judaism.jpg", 3),
+        HomeCard("Christianity", "assets/icons/christianity.jpg", 2)
       ],
     );
   }
@@ -77,18 +68,23 @@ class HomeCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10)),
                     elevation: 2,
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.43,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              image: AssetImage(_image), fit: BoxFit.cover)),
-                      child: Center(
-                          child: Text(_text,
-                              style: GoogleFonts.poppins(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                    )))));
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                                image: AssetImage(_image), fit: BoxFit.cover)),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                              child: Text(_text,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ))),
+                        ))))));
   }
 }
 
