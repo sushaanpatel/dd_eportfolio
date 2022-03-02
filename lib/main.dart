@@ -1,13 +1,14 @@
-import 'package:dd_eportfolio/screens/home.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+// ignore_for_file: use_key_in_widget_constructors
 
-void main() {
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.white,
-    statusBarColor: Color(0xff424242),
-  ));
+import 'screens/home.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'screens/culture_page.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await init();
   runApp(Main());
 }
 
@@ -31,14 +32,14 @@ class Main extends StatelessWidget {
 class ThemeC {
   static final light = ThemeData(
       primarySwatch: Colors.blue,
-      primaryColor: const Color(0xffe6e600),
+      primaryColor: Colors.blue,
       brightness: Brightness.light,
       scaffoldBackgroundColor: const Color(0xfff5f5f5),
       colorScheme: const ColorScheme.light());
 
   static final dark = ThemeData(
       primarySwatch: Colors.blue,
-      primaryColor: const Color(0xffe6e600),
+      primaryColor: Colors.blue,
       brightness: Brightness.dark,
       scaffoldBackgroundColor: const Color(0xff222222),
       colorScheme: const ColorScheme.dark());
@@ -51,4 +52,26 @@ class ThemeP extends ChangeNotifier {
     themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
     notifyListeners();
   }
+}
+
+Future<void> init() async {
+  //Initialization Settings for Android
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/music');
+
+  //Initialization Settings for iOS
+  const IOSInitializationSettings initializationSettingsIOS =
+      IOSInitializationSettings(
+    requestSoundPermission: false,
+    requestBadgePermission: false,
+    requestAlertPermission: false,
+  );
+
+  //InitializationSettings for initializing settings for both platforms
+  const InitializationSettings initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+  );
 }

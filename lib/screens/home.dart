@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors_in_immutables
+
 import 'package:dd_eportfolio/main.dart';
 import 'package:dd_eportfolio/screens/culture_page.dart';
 import 'package:flutter/material.dart';
@@ -8,30 +10,31 @@ import 'package:provider/provider.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            appBar: AppBar(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Home',
-                      style: GoogleFonts.poppins(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).textTheme.bodyText1!.color)),
-                  ModeSwitch()
-                ],
+    final themep = Provider.of<ThemeP>(context);
+    return Scaffold(
+        appBar: AppBar(
+          systemOverlayStyle: themep.isDarkMode
+              ? SystemUiOverlayStyle.light
+              : SystemUiOverlayStyle.dark,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.asset(
+                themep.isDarkMode
+                    ? 'assets/icons/logo_dark.png'
+                    : 'assets/icons/logo_white.png',
+                width: MediaQuery.of(context).size.width * 0.26,
               ),
-              iconTheme: IconThemeData(
-                  color: Theme.of(context).textTheme.bodyText1!.color,
-                  size: 30),
-              centerTitle: true,
-              shadowColor: Colors.transparent,
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              // systemOverlayStyle:
-              //     const SystemUiOverlayStyle(statusBarColor: Colors.grey),
-            ),
-            body: HomeWidget()));
+              ModeSwitch()
+            ],
+          ),
+          iconTheme: IconThemeData(
+              color: Theme.of(context).textTheme.bodyText1!.color, size: 20),
+          centerTitle: true,
+          shadowColor: Colors.transparent,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        body: HomeWidget());
   }
 }
 
@@ -44,7 +47,8 @@ class HomeWidget extends StatelessWidget {
         HomeCard("Hinduism", "assets/icons/hinduism.jpg", 0),
         HomeCard("Islam", "assets/icons/islam.png", 1),
         HomeCard("Judaism", "assets/icons/judaism.jpg", 3),
-        HomeCard("Christianity", "assets/icons/christianity.jpg", 2)
+        HomeCard("Christianity", "assets/icons/christianity.jpg", 2),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -62,11 +66,11 @@ class HomeCard extends StatelessWidget {
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => CulturePage(id: id))),
             child: Padding(
-                padding: const EdgeInsets.fromLTRB(5, 1, 0, 1),
+                padding: const EdgeInsets.fromLTRB(5, 1, 5, 4),
                 child: Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    elevation: 2,
+                    elevation: 6,
                     child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -104,35 +108,3 @@ class ModeSwitch extends StatelessWidget {
         });
   }
 }
-
-/*ElevatedButton(
-                      onPressed: () => showModalBottomSheet(
-                          elevation: 4,
-                          isDismissible: true,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          context: context,
-                          builder: (context) {
-                            return Column(children: [
-                              Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Image.asset(
-                                    'assets/icons/bar.png',
-                                    width: 100,
-                                  )),
-                              Text(_text,
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.bold))
-                            ]);
-                            // return ;
-                          }),
-                      child: Text(
-                        _text,
-                        style: GoogleFonts.poppins(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color:
-                                Theme.of(context).textTheme.bodyText1!.color),
-                      ),
-                    ), */
